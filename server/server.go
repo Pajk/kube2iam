@@ -271,7 +271,7 @@ func (s *Server) debugStoreHandler(logger *log.Entry, w http.ResponseWriter, r *
 }
 
 func (s *Server) emptyResponseHandler(logger *log.Entry, w http.ResponseWriter, r *http.Request) {
-       w.Header().Set("Server", "EC2ws")
+	w.Header().Set("Server", "EC2ws")
 }
 
 func (s *Server) securityCredentialsHandler(logger *log.Entry, w http.ResponseWriter, r *http.Request) {
@@ -383,9 +383,9 @@ func (s *Server) Run(host, token, nodeName string, insecure bool) error {
 		r.Handle("/{version}/user-data", emptyResponseHandler)
 		r.Handle("/{version}/user-data/{path:.*}", emptyResponseHandler)
 	}
+
 	if s.DisableSensitiveMetadata {
-		// permit instance identity document, but not its signatures
-		r.Handle("/{version}/dynamic/instance-identity/document", newAppHandler("reserveProxyHandler", s.reverseProxyHandler))
+		r.Handle("/{version}/dynamic/instance-identity/document", emptyResponseHandler)
 		r.Handle("/{version}/dynamic/instance-identity/{path:.+}", emptyResponseHandler)
 		// hide public keys, disk configuration, security group & iam information
 		r.Handle("/{version}/meta-data/public-keys/{path:.*}", emptyResponseHandler)
